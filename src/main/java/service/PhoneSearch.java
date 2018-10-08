@@ -46,7 +46,7 @@ public class PhoneSearch {
             String phone = getPhoneNumber(phoneMidNumber);
             String url = URL.replace(PHONE, phone);
             try {
-                System.out.println("查询 ：" + i);
+                System.out.println("查询 ：" + phone);
                 String result = HttpUtil.post(url, null);
                 PhoneResult phoneResult = JSONObject.parseObject(result.replace(REPLACE_STR,""),PhoneResult.class);
                 if (phoneResult.getProvince().contains("内蒙")) {
