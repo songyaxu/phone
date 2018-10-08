@@ -16,25 +16,25 @@ import java.io.OutputStream;
 @Slf4j
 public class VCFGenerator {
 
-    private static final String VCARD_BEGIN = "BEGIN:VCARD";
+    private static final String VCARD_BEGIN = "BEGIN:VCARD\r\n";
 
-    private static final String VCARD_VERSION = "VERSION:2.1";
+    private static final String VCARD_VERSION = "VERSION:2.1\r\n";
 
-    private static final String VCARD_END = "END:VCARD";
+    private static final String VCARD_END = "END:VCARD\r\n";
 
-    private static final String VCARD_GROUP_REPLACE = "X-GROUP-MEMBERSHIP:#";
+    private static final String VCARD_GROUP_REPLACE = "X-GROUP-MEMBERSHIP:#\r\n";
 
-    private static final String VCARD_NAME_REPLACE = "N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:;#;;;";
+    private static final String VCARD_NAME_REPLACE = "N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:;#;;;\r\n";
 
-    private static final String VCARD_FNAME_REPLACE = "FN;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:#";
+    private static final String VCARD_FNAME_REPLACE = "FN;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:#\r\n";
 
     private static final String VCARD_TEL = "TEL;";
 
-    private static final String VCARD_CELL_REPLACE = "CELL:#";
+    private static final String VCARD_CELL_REPLACE = "CELL:#\r\n";
 
     private static final String REPLACE_WORD = "#";
 
-    public String getQuotedPrintableString(String original) {
+    private String getQuotedPrintableString(String original) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             OutputStream encodedOut = MimeUtility.encode(baos, "quoted-printable");
