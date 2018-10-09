@@ -5,7 +5,6 @@ import client.VCFGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class VCFgen {
 
-    private String test = "PhoneResult(mts=1810046, province=内蒙古, catName=中国电信, telString=18100461272, areaVid=30495, ispVid=138238560, carrier=内蒙古电信)";
+    private static final String TEST = "测试";
 
     private List<PhoneResult> getPhoneResultList(String fileLocation){
         List<PhoneResult> resultList= new ArrayList<PhoneResult>();
@@ -44,9 +43,31 @@ public class VCFgen {
         return resultList;
     }
 
+    private void genVCFFile(String outputFilePath,String inputFilePath){
+        try {
+            File file = new File(outputFilePath);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+            VCFGenerator client = new VCFGenerator();
+            List<PhoneResult> resultList = getPhoneResultList(inputFilePath);
+            for (int i = 0;i< resultList.size();i++){
+                String name = TEST+(i+1);
+                String fName = TEST+(i+1);
+                PhoneResult phoneResult = resultList.get(i);
+                String writeStr = client.genVCFString(name,fName,phoneResult.getTelString(),TEST);
+                bufferedOutputStream.write(writeStr.getBytes());
+            }
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
+        } catch (IOException e){
+            System.out.println("写入文件IO异常");
+        } catch (Exception e){
+            System.out.println("执行异常");
+        }
+    }
+
     public static void main(String[] args) {
         VCFgen vcFgen = new VCFgen();
-        List<PhoneResult> resultList = vcFgen.getPhoneResultList("C:\\Users\\yaxuSong\\Desktop\\vcf.json");
-        System.out.println(resultList.size());
+        vcFgen.genVCFFile("C:\\Users\\yaxuSong\\Desktop\\test.vcf","C:\\Users\\yaxuSong\\Desktop\\templatevcf.json");
     }
 }
